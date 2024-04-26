@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image:pushpa04/3-tier-app:VERSION
+        image: pushpa04/3-tier-app:VERSION
         ports:
         - containerPort: 3000
 ---
