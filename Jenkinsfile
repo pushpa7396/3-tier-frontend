@@ -1,18 +1,18 @@
 pipeline {
     agent {
-        label 'Docker-Node'
+        label 'docker'
     }
 
     environment {
         KUBECONFIG_CREDENTIAL_ID = 'k8s-kubeconfig-dev'
         version = "frontend_${env.BUILD_NUMBER}"
-        docker_image = "persevcareers6577/perseverance-project:${version}"
+        docker_image = "pushpa04/3-tier-app:${version}"
     }
 
     stages {
        stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/persevcareers/Final-Project-Frontend.git'
+                git branch: 'main', url: 'https://github.com/pushpa7396/3-tier-frontend.git'
             }
         }
 
@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
                     def dockerfilePath = '.'
-                    sh "sudo docker build -t 'persevcareers6577/perseverance-project:${version}' ."
+                    sh "sudo docker build -t 'pushpa04/3-tier-app:${version}' ."
                 }
             }
         }
@@ -36,7 +36,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    sh "sudo docker push 'persevcareers6577/perseverance-project:${version}'"
+                    sh "sudo docker push 'pushpa04/3-tier-app:${version}'"
                 }
             }
         } 
@@ -44,7 +44,7 @@ pipeline {
             steps {
                 script {
                     def outputFilePath = "${env.WORKSPACE}/trivy_scan.txt"
-                    def docker_image = "persevcareers6577/perseverance-project:${version}"
+                    def docker_image = "pushpa04/3-tier-app:${version}"
                     sh "sudo trivy image ${docker_image} > ${outputFilePath}"
                     sh "cat ${outputFilePath}"
                 }
